@@ -13,7 +13,7 @@ searchableRouter.get("/country",async(req,res)=>{
 searchableRouter.get("/state/:country",async(req,res)=>{
     const country=req.params.country;
     const {_id}=await CountryModel.findOne({"name":country});
-    console.log(_id,"countryId");
+  
     const states=await StateModel.find({"countryId":_id});
     res.send(states)
     

@@ -1,8 +1,13 @@
 import React from 'react'
 
-const DeleteAlert = () => {
+const DeleteAlert = ({handleNo,handleYes}) => {
   return (
-    <div>DeleteAlert</div>
+    <div>
+        <h2>Confirm Delete</h2>
+        <p>Are you want to Delete</p>
+        <button onClick={handleYes}>YES</button>
+        <button onClick={handleNo}>NO</button>
+    </div>
   )
 }
 

@@ -4,6 +4,7 @@ const cors=require("cors");
 const { connection } = require("./Configue/db");
 const { customerRouter } = require("./Routes/customer.route");
 const { searchableRouter } = require("./Routes/Searchable.route");
+const { EditDeleteRouter } = require("./Routes/EditDelete.route");
 
 const app=express();
 
@@ -20,6 +21,7 @@ app.get("/",(req,res)=>{
 
 app.use("/customer",customerRouter);
 app.use("/searchable",searchableRouter);
+app.use("/customer/EditDeletecustomer",EditDeleteRouter)
 
 app.listen(9001,async(req,res)=>{
     try {

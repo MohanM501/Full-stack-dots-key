@@ -14,7 +14,6 @@ const ManagerCustomer = ({handleClose,handleSave}) => {
     useEffect(()=>{
         axios.get(`${url}/searchable/country`).then((r)=>{
             setCountries(r.data);
-            console.log(r.data,"r data2")
         }).catch((err)=>{
             console.log(err,"err")
         })
@@ -34,13 +33,11 @@ const ManagerCustomer = ({handleClose,handleSave}) => {
         setData({...data,[name]:value});
         if(name==="country"){
             axios.get(`${url}/searchable/state/${value}`).then((r)=>{
-                setStates(r.data);
-                console.log(r.data,"r data3")
+                setStates(r.data);   
             })
         }else if(name==="state"){
             axios.get(`${url}/searchable/city/${value}`).then((r)=>{
                 setCities(r.data);
-                console.log(r.data,"r data4")
             })
         }
         

@@ -3,6 +3,7 @@ import { useEffect,useState } from 'react';
 import axios from "axios";
 import "./CustomerList.css";
 import ManagerCustomer from './ManagerCustomer';
+import DeleteAlert from './DeleteAlert';
 let url=`http://localhost:9001/customer`;
 
 const CustomerList = () => {
@@ -10,10 +11,11 @@ const CustomerList = () => {
     const [show,setShow]=useState(false);
     const [page,setPage]=useState(1);
     const [type,setType]=useState("post");
+    const [deleting,setDeleting]=useState(false);
+    const [deleteId,setDeleteId]=useState("");
 
     const Get_Axios=()=>{
         axios.get(`${url}/${page}`).then((r)=>{
-            console.log(r.data,'r.data');
             setCustomerData(r.data);
         }).catch((err)=>{
             console.log(err,"err")
@@ -48,17 +50,17 @@ const CustomerList = () => {
 
     const PostData=(data)=>{
         axios.post(`${url}/create`,data).then((r)=>{
-            console.log(r.data,"r data");
-            alert("added succesfully");
+            alert("added succesfully"); 
         }).catch((err)=>{
             console.log(err,"err");
         })
     }
 
     const EditData=(data)=>{
-        axios.patch(`${url}/create`,data).then((r)=>{
-            console.log(r.data,"r data");
+    
+        axios.patch(`${url}/EditDeletecustomer/edit/${type}`,data).then((r)=>{
             alert("Edited succesfully");
+            setPage(1);
         }).catch((err)=>{
             console.log(err,"err");
         })
@@ -66,7 +68,7 @@ const CustomerList = () => {
     const handleSave=(e,data)=>{
         
         e.preventDefault();
-        console.log(data,"data");
+        
         if(type==="post"){
             PostData(data);
         }else{
@@ -75,13 +77,31 @@ const CustomerList = () => {
         
     }
 
-    const handleEdit=()=>{
+    const handleEdit=(id)=>{
+        
         setShow(true);
-        setType("edit");
+        setType(id);
     }
 
-    const handleDelete=()=>{
-
+    const handleDelete=(id)=>{
+        setDeleting(true);
+        setDeleteId(id);
+        
+    }
+    const handleNo=()=>{
+        setDeleting(false);
+    }
+    const handleYes=()=>{
+        
+        axios.delete(`${url}/EditDeletecustomer/delete/${deleteId}`).then((r)=>{
+          
+            alert("Deleted Succesfully");
+            
+        }).catch((err)=>{
+            console.log(err,"failed to delete")
+        })
+        setDeleting(false);
+        setPage(1);
     }
 
 
@@ -93,6 +113,9 @@ const CustomerList = () => {
         </div>
         <div id={show?"show":"hide"}>
             {<ManagerCustomer handleClose={handleClose}  handleSave={handleSave} />}
+        </div>
+        <div id={deleting?"deleteShow":"deleteHide"}>
+            {<DeleteAlert handleNo={handleNo} handleYes={handleYes}/>}
         </div>
         <div>
             <table border={"2"} cellPadding="8">
@@ -114,7 +137,7 @@ const CustomerList = () => {
                        customer_data.length>0 && customer_data.map((item,ind)=>{
                            // index is not appropriate to use as key but time purpose I am using it.
                             return(<tr key={ind}>
-                                <td>{page*(ind+1)}</td>
+                                <td>{((page-1)*5)+(ind+1)}</td>
                                 <td>{item.customer.name}</td>
                                 <td>{item.customer.email}</td>
                                 <td>{item.country}</td>
@@ -122,7 +145,7 @@ const CustomerList = () => {
                                 <td>{item.city}</td>
                                 <td>{item.languages}</td>
                                 <td>{item.customer.createdDate}</td>
-                                <td><button onClick={handleEdit}>Edit</button><button onClick={handleDelete}>Delete</button></td>
+                                <td><button onClick={()=>handleEdit(item.customer._id)}>Edit</button><button onClick={()=>handleDelete(item.customer._id)}>Delete</button></td>
                             </tr>)
                        })
                    }

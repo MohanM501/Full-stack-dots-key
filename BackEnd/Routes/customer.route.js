@@ -9,8 +9,8 @@ const customerRouter=express.Router();
 
 customerRouter.get("/:page",async(req,res)=>{
     const page=Number(req.params.page);
-    let customer_data=await CustomerModel.find().skip((page-1)*1).limit(1);
-    console.log(customer_data,"customer_data");
+    let customer_data=await CustomerModel.find().skip((page-1)*5).limit(5);
+    
     let new_updated=[];
     for(let i=0;i<customer_data.length;i++){
         let customer=customer_data[i];
@@ -32,13 +32,13 @@ customerRouter.get("/:page",async(req,res)=>{
         new_updated.push(new_item)
         
     }
-    console.log(new_updated,"new_updated");
+    
     res.send(new_updated)
 })
 
 customerRouter.post("/create",async(req,res)=>{
     const payload=req.body;
-    console.log(payload,"payload");
+   
     const {languages,country,state,city}=req.body;
 
     //1 
@@ -55,7 +55,7 @@ customerRouter.post("/create",async(req,res)=>{
         country1=await CountryModel.find({name:country});
     }
     
-    console.log(country1,"country1")
+    
     //3
     let state1=await StateModel.find({name:state});
     if(state1.length===0){
@@ -89,9 +89,7 @@ customerRouter.post("/create",async(req,res)=>{
 
 })
 
-customerRouter.delete("/delete/:customerId",async(req,res)=>{
-     
-})
+
 
 module.exports={
     customerRouter
