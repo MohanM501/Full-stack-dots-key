@@ -80,7 +80,7 @@ customerRouter.post("/create",async(req,res)=>{
     const date=new Date();
     payload["createdDate"]=date;
     
-    console.log(payload,"updated payload")
+    
     // I am not using bcrypt to hash the password because of time constraint;
     const new_customer=new CustomerModel(payload);
     await new_customer.save();
