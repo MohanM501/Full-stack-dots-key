@@ -60,7 +60,6 @@ const CustomerList = () => {
     
         axios.patch(`${url}/EditDeletecustomer/edit/${type}`,data).then((r)=>{
             alert("Edited succesfully");
-            setPage(1);
         }).catch((err)=>{
             console.log(err,"err");
         })
@@ -101,7 +100,6 @@ const CustomerList = () => {
             console.log(err,"failed to delete")
         })
         setDeleting(false);
-        setPage(1);
     }
 
 
