@@ -1,0 +1,30 @@
+.container{
+    width:80%;
+    margin: auto;
+}
+.heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.heading>button{
+    padding:15px;
+    border: 1px solid black;
+    border-radius: 5px;
+
+}
+
+#show{
+    border: 1px solid red;
+    background-color: aqua;
+    padding:40px;
+
+    position:fixed;
+    top:25%;
+    left:25%;
+    z-index: 20;
+}
+
+#hide{
+    display: none;
+}
