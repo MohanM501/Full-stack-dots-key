@@ -9,6 +9,7 @@ const CustomerList = () => {
     const [customer_data,setCustomerData]=useState([]);
     const [show,setShow]=useState(false);
     const [page,setPage]=useState(1);
+    const [type,setType]=useState("post");
 
     const Get_Axios=()=>{
         axios.get(`${url}/${page}`).then((r)=>{
@@ -25,7 +26,7 @@ const CustomerList = () => {
 
     const handleAdd=()=>{
         setShow(!show);
-
+        setType("post");
     }
     const handleClose=()=>{
         setShow(false);
@@ -45,12 +46,42 @@ const CustomerList = () => {
         
     }
 
-    const handleEdit=()=>{
+    const PostData=(data)=>{
+        axios.post(`${url}/create`,data).then((r)=>{
+            console.log(r.data,"r data");
+            alert("added succesfully");
+        }).catch((err)=>{
+            console.log(err,"err");
+        })
+    }
 
+    const EditData=(data)=>{
+        axios.patch(`${url}/create`,data).then((r)=>{
+            console.log(r.data,"r data");
+            alert("Edited succesfully");
+        }).catch((err)=>{
+            console.log(err,"err");
+        })
+    }
+    const handleSave=(e,data)=>{
+        
+        e.preventDefault();
+        console.log(data,"data");
+        if(type==="post"){
+            PostData(data);
+        }else{
+            EditData(data);
+        }
+        
+    }
+
+    const handleEdit=()=>{
+        setShow(true);
+        setType("edit");
     }
 
     const handleDelete=()=>{
-        
+
     }
 
 
@@ -61,7 +92,7 @@ const CustomerList = () => {
             <button onClick={handleAdd}>Add New Customer</button>
         </div>
         <div id={show?"show":"hide"}>
-            {<ManagerCustomer handleClose={handleClose} />}
+            {<ManagerCustomer handleClose={handleClose}  handleSave={handleSave} />}
         </div>
         <div>
             <table border={"2"} cellPadding="8">
@@ -83,7 +114,7 @@ const CustomerList = () => {
                        customer_data.length>0 && customer_data.map((item,ind)=>{
                            // index is not appropriate to use as key but time purpose I am using it.
                             return(<tr key={ind}>
-                                <td>{ind+1}</td>
+                                <td>{page*(ind+1)}</td>
                                 <td>{item.customer.name}</td>
                                 <td>{item.customer.email}</td>
                                 <td>{item.country}</td>

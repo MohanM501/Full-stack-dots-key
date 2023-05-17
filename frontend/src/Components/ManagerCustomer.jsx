@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useState } from 'react'
 let url=`http://localhost:9001`
 
-const ManagerCustomer = ({handleClose}) => {
+const ManagerCustomer = ({handleClose,handleSave}) => {
     const [data,setData]=useState({});
     const [countries,setCountries]=useState([]);
     const [states,setStates]=useState([]);
@@ -45,16 +45,8 @@ const ManagerCustomer = ({handleClose}) => {
         }
         
     }
-    const handleSave=(e)=>{
-        e.preventDefault();
-        console.log(data,"data");
-        axios.post(`${url}/customer/create`,data).then((r)=>{
-            console.log(r.data,"r data");
-            alert("added succesfully");
-        }).catch((err)=>{
-            console.log(err,"err");
-        })
-    }
+   
+    
     
   return (
     <div>
@@ -106,7 +98,7 @@ const ManagerCustomer = ({handleClose}) => {
             Active
             <br/>
             <button onClick={handleClose}>Cancel</button>
-            <button onClick={handleSave}>Save</button>
+            <button onClick={(e)=>handleSave(e,data)}>Save</button>
         </form>
     </div>
   )
