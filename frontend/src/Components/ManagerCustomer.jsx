@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react'
-let url=`http://localhost:9001`
+let url=`https://busy-puce-adder-sock.cyclic.app/`
 
 const ManagerCustomer = ({handleClose,handleSave}) => {
     const [data,setData]=useState({});

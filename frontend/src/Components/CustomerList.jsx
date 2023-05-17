@@ -4,7 +4,7 @@ import axios from "axios";
 import "./CustomerList.css";
 import ManagerCustomer from './ManagerCustomer';
 import DeleteAlert from './DeleteAlert';
-let url=`http://localhost:9001/customer`;
+let url=`https://busy-puce-adder-sock.cyclic.app/customer`;
 
 const CustomerList = () => {
     const [customer_data,setCustomerData]=useState([]);
